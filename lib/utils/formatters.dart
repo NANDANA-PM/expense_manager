@@ -14,3 +14,10 @@ String friendlyDate(DateTime d) {
 }
 
 String fieldDate(DateTime d) => DateFormat('EEE, dd MMM yyyy').format(d);
+
+bool isToday(DateTime d) {
+  final now = DateTime.now();
+  return d.year == now.year && d.month == now.month && d.day == now.day;
+}
+
+String shortDate(DateTime d) => DateFormat('dd/MM/yy').format(d);

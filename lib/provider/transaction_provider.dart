@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../database/database_helper.dart';
+import '../models/credit_model.dart';
 import '../models/transaction_model.dart';
 
 class TransactionProvider extends ChangeNotifier {
   final _db = DatabaseHelper.instance;
 
   List<TransactionModel> transactions = [];
+  List<CreditModel> credits = [];
   bool loading = false;
   String? error;
 
@@ -44,17 +46,24 @@ class TransactionProvider extends ChangeNotifier {
     notifyListeners();
     try {
       transactions = await _db.getAll();
+      credits = await _db.getAllCredits();
       error = null;
     } catch (e) {
-      error = 'Failed to load transactions';
+      error = 'Failed to load data';
     }
     loading = false;
     notifyListeners();
   }
 
+  // Transactions
   Future<bool> add(TransactionModel t) => _run(() => _db.insert(t));
   Future<bool> edit(TransactionModel t) => _run(() => _db.update(t));
   Future<bool> remove(int id) => _run(() => _db.delete(id));
+
+  // Credits
+  Future<bool> addCredit(CreditModel c) => _run(() => _db.insertCredit(c));
+  Future<bool> removeCredit(int id) => _run(() => _db.deleteCredit(id));
+
   Future<bool> clearAll() => _run(() => _db.deleteAll());
 
   Future<bool> _run(Future<dynamic> Function() action) async {
