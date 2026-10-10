@@ -71,4 +71,4 @@ lib/
 
 ## Screenshots
 
-Add screenshots in a `screenshorts/` folder and link them here.
+Add screenshots in a `screenshots/` folder and link them here.
